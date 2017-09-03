@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="CSS/index.css">
+  
+<!--
+  <link rel="stylesheet" href="alert/dist/sweetalert.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.3/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.2.3/jquery-confirm.min.js"></script>
+  <script src="alert/dist/sweetalert-dev.js"></script>
+-->
+<script src="javasript/jquery-3.2.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+</head>
+<body>
+
+
+
+<div class="tab">
+  <button class="tablinks" value="Add New Contact"><input type="image" src="images/add-record.png" /> &nbsp;&nbsp;&nbsp;Add New Contact</button>
+</div>
+
+<div class="tabcontent">
+
+
+ <div class="f1">
+
+	<!--earlier start-->
+	
+	<table align="center">
+	<tr><td>
+ 	<table align="center">
+		<tr>
+			<td>Name</td>
+			<td><input size="50" height="50px" type="text" class="givenName" name="givenName"></td>
+		</tr>
+ 		<tr>
+ 			<td>Surname</td>
+ 			<td><input size="50" type="text" class="surname" name="surname"></td>
+ 		</tr>
+ 				
+ 	</table>
+ <table>
+<tr>
+<td>
+<button class="accordion">Add New Phone</button>
+<div class="panel">
+  <table>
+  	<tr>
+ 			<td>Phone Number</td>
+ 			<td></td>
+ 		</tr> 
+		<tr>
+			<td>
+				<select class="phone-types" name="phone-tpye">
+				<option class="phonetypes"></option></select>
+			</td>
+			<td>
+			<input size="15" type="text" class="phone" name="phone">
+			</td>
+		</tr>
+  </table>
+</div>
+</td>
+</tr>
+<tr>
+ <td>
+  <button class="accordion">Add New Address</button>
+	<div class="panel">
+	<table>
+ 		<tr>
+ 			<td>Address</td>
+ 			<td></td>
+ 			
+ 		</tr> 
+		<tr>
+			<td>
+				<select class="address-types" name="address-type">
+				<option class="addresstypes"></option></select>
+			</td>
+			<td><input size="15" type="text" class="address" name="address">
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input size="15" type="text" class="city" name="city">
+			</td>
+		</tr>
+		<tr>
+			<td><input size="15" type="text" class="state" name="state"></td>
+			<td><input size="15" type="text" class="zip" name="zip">
+			</td>
+		</tr>
+ 	</table>
+</div>
+	</td>
+	</tr>
+	</table>
+
+		</td></tr></table>
+	 <center><button class="button button1" id="add-contact">Add!</button></center>
+ </div>
+</div>
+<script src="javasript/index.js"></script>
+<script>
+	var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].onclick = function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight){
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  }
+}
+	</script>
+</body>
+</html>

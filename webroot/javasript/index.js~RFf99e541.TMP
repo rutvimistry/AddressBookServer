@@ -1,0 +1,168 @@
+// JavaScript Document
+var $tabcontent = $('.tabcontent'); /*global declaration of left navigation tab content */
+var $form = $('.f1');
+
+function addContact(){
+		
+
+		
+		
+
+		var $phonetypes = $('.phone-types')
+//		$form.css("display:block;")
+//		$form.show();
+		$form.show();
+		$.ajax({
+		type: 'GET',
+		cache:'false',
+		url: '/phone-types',
+		cache: 'false',
+			dataTyper:'json',
+		success: function(phonenumber){
+			//$tabcontent.append('<tr><td><select name="phone-types">');
+			var types = phonenumber;
+		$.each(phonenumber,function(i,contacts) {
+//			 for (i = 0; i < types.length; i++) {
+			 $phonetypes.append($('<option class="phonetypes"></option>')
+                    .attr("value",types[i])
+                    .text(types[i])); 
+			 //}
+			
+		});
+
+		}
+	
+	});
+ 
+	
+}
+/* function when user click to see contact details*/
+function openContent(evt, contactID) 
+	{
+		var $tabcontent = $('.tabcontent');
+		var $edit = $('.edit');
+		
+		$edit.show();
+		var $givenName, $surname;
+		$tabcontent.empty(); //initially its empty we can keep default by using document.("#content").setdefault();
+		
+		/*when left navigation name and surname is clicked it display name and surname to right side*/
+		$.ajax({
+		type: 'GET',
+		cache:'false',
+		url: '/contacts/'+contactID,
+		cache: 'false',
+		success: function(tabcontent){
+			$.each(tabcontent,function(i,link) {
+				$tabcontent.append('<input type="image" onClick="javascript:edit('+contactID+');" src="images/edit-record.png" height="40px" width="40px" style="margin-top: 20px margin-right: 20px;">');
+			   $tabcontent.append('<table class="displayname" align="center" style="margin-right: 60px;"><tr><td>Name  </td><td>'+tabcontent.givenName+'</td></tr><tr><td> Surname  </td><td>'+tabcontent.surname+'</td></tr></table>').insertAfter("img class='edit'");
+			   });
+		}
+
+		});
+		
+		//to display phone number of particular contactid
+		$.ajax({
+		type: 'GET',
+		cache:'false',
+		url: '/contacts/'+contactID+'/phones',
+		cache: 'false',
+			dataType:'json',
+		
+		success: function(phonenumber){
+			
+		$.each(phonenumber,function(i,contacts) {
+//			  
+				  $tabcontent.append('<table class="displayphone" align="center" style="margin-top: 0px; margin-right: 60px;"><tr><td>'+contacts.phoneType+'</td><td> '+contacts.phoneNumber+'</td></tr></table>');
+					
+		});
+		
+		}
+
+		});
+		
+		$.ajax({
+		type: 'GET',
+		cache:'false',
+		url: '/contacts/'+contactID+'/addresses',
+		cache: 'false',
+			dataType:'json',
+		
+		success: function(address){
+			
+		$.each(address,function(i,addresses) {
+//			  
+				  $tabcontent.append('<table class="displayaddress" align="center" style="margin-top: 0px; margin-right: 60px;"><tr><td>'+addresses.addressType+' </td><td> '+addresses.street+'</td></tr></table>');
+			 	$tabcontent.append('<table class="displayaddress" align="center" style="margin-top: 0px; margin-right: 60px;"><tr><td>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</td><td> '+addresses.city+' '+addresses.state+' '+addresses.postalCode+'</td></tr></table>');
+					
+		});
+		
+		}
+
+		});
+		
+}
+
+function edit()
+{
+	
+}
+
+//contact details end
+//when add new contact is clicked this part is enabled
+					  
+/*main Javascript*/
+$(function(){
+	"use strict";
+	var $contacts = $('#contacts');
+	var $givenName = $('.givenName');
+	var $surname = $('.surname');
+	var $tab = $('.tab')
+//	
+
+	/* get all contacts */
+$.ajax({
+type: 'GET',
+url: '/contacts',
+success: function(tab){
+	$.each(tab,function(i,link) {
+		   $tab.append('<button  class="tablinks" onclick="javascript:openContent(event, '+link.contactID+')" name="b1">'+link.givenName+' '+link.surname+'</button>');
+		   });
+}
+
+});
+	
+/* posting contact to server */
+$('#add-contact').on('click', function(){
+	
+	$.ajax({
+		type: 'POST',
+		url: ' /contacts',
+		data: JSON.stringify({
+    	givenName: $givenName.val(),
+		surname: $surname.val(),
+		  }),
+		  error: function(e) {
+			console.log(e);
+		  },
+		
+		contentType: "application/json; charset=utf-8",
+        dataType: "json",
+		success: function(newcontact)
+		{
+			console.log("newcontact");
+			console.log(newcontact);
+			console.log(newcontact.givenName);
+			console.log(newcontact.surname);
+//		$contacts.append('<button  class="tablinks" onclick="openContent(event, '+newcontact.contactID+')" name="b1">'+newcontact.givenName+' '+newcontact.surname+'</button>');
+			$contacts.append('<button  class="tablinks" onclick="openContent(event, '+newcontact.contactID+')" name="b1">{{givenName}} {{surname}}</button>');
+	}
+	});
+	location.reload();
+
+});
+
+/*last tag*/	
+});
+
+
